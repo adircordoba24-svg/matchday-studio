@@ -1,0 +1,59 @@
+/* ============================================================
+   ערכות עיצוב. כדי לקבוע ערכה קבועה, משנים את DEFAULT_THEME בקובץ js/theme.js.
+   gold = זהב לילה | pitch = קו הדשא | platinum = פלטינה
+   ============================================================ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+:root{--body:'Heebo',Arial,sans-serif;--ls:0}
+
+[data-theme=gold]{
+  --bg:#0a0f1c;--surface:#111a2b;--field:#0a1222;--ink:#f4efe3;--muted:#aeb3bf;
+  --accent:#d6b06a;--accent-ink:#1a1306;--line:rgba(214,176,106,.32);
+  --display:'Frank Ruhl Libre','Times New Roman',serif;--dw:700;--ls:0;--r:2px;
+  --glow:radial-gradient(60% 55% at 85% 0%,rgba(214,176,106,.17),transparent 70%);
+  --p1:#1b2c4d;--p2:#0a0f1c;--scheme:dark;
+}
+[data-theme=pitch]{
+  --bg:#0b2a20;--surface:#113a2c;--field:#0a251c;--ink:#eef3e6;--muted:#a9c3b3;
+  --accent:#e3ecc9;--accent-ink:#0b2a20;--line:rgba(227,236,201,.34);
+  --display:'Suez One','Frank Ruhl Libre',serif;--dw:400;--ls:0;--r:8px;
+  --glow:radial-gradient(55% 50% at 15% 0%,rgba(227,236,201,.12),transparent 70%);
+  --p1:#1d5a43;--p2:#0b2a20;--scheme:dark;
+}
+[data-theme=platinum]{
+  --bg:#eceff3;--surface:#ffffff;--field:#f4f6f9;--ink:#0e1621;--muted:#53606d;
+  --accent:#1c3fff;--accent-ink:#ffffff;--line:#c4ced8;
+  --display:'Heebo',Arial,sans-serif;--dw:800;--ls:-.03em;--r:12px;
+  --glow:radial-gradient(50% 45% at 90% 0%,rgba(28,63,255,.10),transparent 70%);
+  --p1:#d6dde6;--p2:#f7f9fb;--scheme:light;
+}
+
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--body);color-scheme:var(--scheme);
+  background-image:var(--glow);background-repeat:no-repeat}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);font-weight:var(--dw);letter-spacing:var(--ls);margin:0}
+p{margin:0 0 1em}
+small{display:block;margin-top:6px;font-size:13px;color:var(--muted);line-height:1.5}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+
+/* ---------- כפתורים ---------- */
+.btn,button.btn{display:inline-block;border:0;border-radius:var(--r);background:var(--accent);color:var(--accent-ink);
+  font:700 17px/1 var(--body);padding:16px 28px;text-decoration:none;cursor:pointer;transition:filter .15s}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.55;cursor:wait}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* ---------- ניווט ---------- */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0;border-bottom:1px solid var(--line)}
+.brand{font:700 15px/1 var(--body);letter-spacing:.28em;direction:ltr;color:var(--ink)}
+.nav .btn{padding:11px 20px;font-size:15px}
+
+footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 28px}
+footer .meta,footer .links{display:flex;flex-wrap:wrap;gap:6px 22px}
+footer a{color:var(--muted);font-size:13px}
+

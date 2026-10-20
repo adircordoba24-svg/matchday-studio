@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MATCHDAY STUDIO | פוסטר MATCH DAY אישי לשחקני כדורגל</title>
+<meta name="description" content="פוסטר MATCH DAY אישי לשחקני כדורגל, בגודל סטורי. הצבעים שלך, הסמל שלך, הסיפור שלך.">
+<meta property="og:title" content="MATCHDAY STUDIO">
+<meta property="og:description" content="פוסטר MATCH DAY אישי לשחקני כדורגל.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0f1c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23d6b06a' stroke-width='2'/%3E%3Cpath d='M4 16h24' stroke='%23d6b06a' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700;900&family=Heebo:wght@300;400;500;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<script src="js/theme.js"></script>
+<link rel="stylesheet" href="css/theme.css">
+<style>
+/* ---------- הירו ---------- */
+.hero{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;padding:72px 0 80px}
+.hero-art{position:relative}
+.pitch-lines{position:absolute;left:50%;top:50%;width:150%;max-width:none;transform:translate(-50%,-50%);z-index:0;pointer-events:none;color:var(--line)}
+.hero{overflow:hidden}
+.kicker{color:var(--accent);font-weight:500;font-size:16px;margin-bottom:22px}
+.hero h1{font-size:clamp(52px,8.4vw,104px);line-height:1.02}
+.hero h1 .l2{display:block;color:var(--accent)}
+.lead{font-size:clamp(18px,2.2vw,22px);color:var(--muted);max-width:30em;margin:28px 0 34px}
+.facts{list-style:none;padding:0;margin:40px 0 0;display:flex;flex-wrap:wrap;gap:10px 28px;color:var(--muted);font-size:14px}
+.facts li{padding-inline-start:16px;position:relative}
+.facts li::before{content:"";position:absolute;inset-inline-start:0;top:.7em;width:8px;height:1px;background:var(--accent)}
+
+/* פוסטר הדגמה */
+.hero-art{display:flex;justify-content:center}
+.poster{width:min(100%,300px);aspect-ratio:9/16;border:1px solid var(--line);border-radius:calc(var(--r) + 4px);
+  background:linear-gradient(165deg,var(--p1),var(--p2));padding:22px 20px;display:flex;flex-direction:column;
+  justify-content:space-between;transform:rotate(-2.5deg);box-shadow:0 30px 60px -30px rgba(0,0,0,.55);overflow:hidden;position:relative;z-index:1}
+.poster-top{font:700 13px/1 var(--body);letter-spacing:.3em;color:var(--accent)}
+.poster-num{font:var(--dw) clamp(120px,15vw,170px)/.8 var(--display);color:transparent;-webkit-text-stroke:2px var(--accent);text-align:center;letter-spacing:0}
+.poster-name{font:var(--dw) 30px/1.1 var(--display);color:var(--ink);letter-spacing:var(--ls)}
+.poster-fx{font-size:14px;color:var(--muted);margin-top:6px}
+.poster-time{font:700 15px/1 var(--body);color:var(--accent);margin-top:12px}
+.poster-photo{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.poster.has-photo{padding:0;background:var(--surface)}
+.poster.has-photo .poster-photo{display:block}
+.poster.has-photo>*:not(.poster-photo){visibility:hidden}
+.poster.has-photo::after{display:none}
+.poster::after{content:"";position:absolute;inset:auto 0 0 0;height:36%;background:linear-gradient(to top,rgba(0,0,0,.35),transparent);pointer-events:none}
+[data-theme=platinum] .poster::after{display:none}
+[data-theme=platinum] .poster-name,[data-theme=platinum] .poster-top{color:#0e1621}
+[data-theme=platinum] .poster-fx{color:#44505c}
+
+/* ---------- איך זה עובד ---------- */
+.steps{list-style:none;counter-reset:s;padding:26px 0;margin:0 0 76px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;border-block:1px solid var(--line)}
+.steps li{counter-increment:s}
+.steps li::before{content:counter(s);display:block;font:var(--dw) 40px/1 var(--display);color:var(--accent);margin-bottom:10px;letter-spacing:0}
+.steps strong{display:block;font-size:18px;margin-bottom:2px}
+.steps span{color:var(--muted);font-size:15px}
+
+/* ---------- סגנונות ---------- */
+.section-title{font-size:clamp(30px,4vw,44px);line-height:1.15;margin-bottom:10px}
+.section-sub{color:var(--muted);max-width:40em}
+.styles-field{border:0;margin:28px 0 0;padding:0;min-width:0}
+.styles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.style{display:block;cursor:pointer;position:relative}
+.style input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.mini{display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-height:250px;padding:16px 12px;
+  border-radius:calc(var(--r) + 2px);border:1px solid rgba(128,140,150,.35);position:relative;text-align:right;transition:transform .15s}
+.style:hover .mini{transform:translateY(-3px)}
+.mini small{margin:0;color:inherit;opacity:.75;font-size:12px;letter-spacing:.08em}
+.mini strong{font:900 30px/.92 var(--body);letter-spacing:-.02em;direction:ltr;text-align:left}
+.mini .en{font-size:12px;font-weight:700;letter-spacing:.14em;direction:ltr;text-align:left}
+.mini .he{font-size:13px;line-height:1.35}
+.style input:checked + .mini{outline:3px solid var(--accent);outline-offset:3px}
+.style input:checked + .mini::after{content:"נבחר ✓";position:absolute;top:10px;inset-inline-start:10px;background:var(--accent);color:var(--accent-ink);
+  font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px}
+.style input:focus-visible + .mini{outline:3px solid var(--ink);outline-offset:3px}
+.s-md01 .mini{background:linear-gradient(160deg,#1f5287,#07162b);color:#fff}
+.s-md02 .mini{background:#e9eef2;color:#13293a}
+.s-md03 .mini{background:linear-gradient(135deg,#59232d,#151519);color:#fff}
+.s-md04 .mini{background:linear-gradient(135deg,#3f2466,#06404f);color:#fff}
+.s-md05 .mini{background:linear-gradient(125deg,#1b4fc4 50%,#c3dbf2 50%);color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.s-md05 .mini>span{color:#0d2a57;text-shadow:none}
+.s-md06 .mini{background:#d9d4c4;color:#17242d}
+
+/* ---------- טופס ---------- */
+.panel{margin:34px 0 0;padding:34px;border:1px solid var(--line);border-radius:calc(var(--r) + 6px);background:var(--surface)}
+.panel h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:24px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.field{display:block;font-size:15px}
+.field .lbl{display:block;font-weight:500}
+.full{grid-column:1/-1}
+input[type=text],input[type=tel],input[type=time],input[type=date],select,textarea{
+  width:100%;display:block;margin-top:7px;padding:13px 14px;font:inherit;color:var(--ink);background:var(--field);
+  border:1px solid var(--line);border-radius:var(--r)}
+textarea{resize:vertical;min-height:96px}
+input.invalid,select.invalid,textarea.invalid,.field.invalid .drop{border-color:#ff6b6b;box-shadow:0 0 0 1px #ff6b6b}
+[data-theme=platinum] input.invalid{border-color:#c62828;box-shadow:0 0 0 1px #c62828}
+.check{display:flex;gap:12px;align-items:flex-start;margin:20px 0 0;font-size:15px;cursor:pointer}
+.check input{flex:0 0 auto;width:20px;height:20px;margin:3px 0 0;accent-color:var(--accent)}
+.trap{position:absolute;inset-inline-start:0;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+
+.drop{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:7px;padding:22px 16px;text-align:center;cursor:pointer;
+  border:1.5px dashed var(--line);border-radius:var(--r);background:var(--field);position:relative}
+.drop:hover{border-color:var(--accent)}
+.drop input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.drop:focus-within{outline:3px solid var(--accent);outline-offset:3px}
+.drop strong{font-size:16px}
+.thumbs{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.thumbs li{position:relative;aspect-ratio:1;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--field)}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs button{position:absolute;top:6px;inset-inline-start:6px;width:30px;height:30px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(0,0,0,.72);color:#fff;font:700 15px/30px var(--body);padding:0}
+
+.form-actions{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.form-actions p{margin:0;color:var(--muted);font-size:14px}
+.message{margin-top:18px;min-height:1.5em;font-size:15px;font-weight:500;white-space:pre-line}
+.message.error{color:#ff8f8f}
+[data-theme=platinum] .message.error{color:#b71c1c}
+.message.info{color:var(--accent)}
+
+.done{margin:34px 0 0;padding:44px 34px;border:1px solid var(--accent);border-radius:calc(var(--r) + 6px);background:var(--surface);text-align:center}
+.done h2{font-size:clamp(28px,4vw,40px);margin-bottom:12px}
+.done p{color:var(--muted);max-width:32em;margin-inline:auto}
+.done .ref{display:inline-block;direction:ltr;font:700 18px/1 var(--body);letter-spacing:.18em;color:var(--accent);margin:6px 0 22px}
+[hidden]{display:none!important}
+
+/* ---------- שאלות ---------- */
+.faq{margin:84px 0 60px}
+.faq h2{font-size:clamp(28px,3.6vw,38px);margin-bottom:18px}
+details.q{border-bottom:1px solid var(--line)}
+details.q summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-weight:700}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::after{content:"+";color:var(--accent);font-size:24px;line-height:1}
+details.q[open] summary::after{content:"\2212"}
+details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
+
+/* מחליף ערכות (רק עם ?preview) */
+.switcher{position:fixed;bottom:16px;inset-inline-start:16px;z-index:50;display:flex;gap:6px;padding:8px;border-radius:99px;
+  background:#000c;backdrop-filter:blur(6px)}
+.switcher a{color:#fff;text-decoration:none;font-size:13px;padding:7px 14px;border-radius:99px;border:1px solid #fff4}
+.switcher a.on{background:#fff;color:#000}
+
+
+/* ---------- טופס בשלבים ---------- */
+.progress{margin:0 0 30px;scroll-margin-top:16px;outline:0}
+.pg-text{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.pg-text strong{font-size:15px;color:var(--accent);letter-spacing:.04em}
+.pg-text span{font-size:15px;color:var(--muted)}
+.pg-bar{height:4px;border-radius:4px;background:var(--line);position:relative;overflow:hidden}
+.pg-bar i{position:absolute;inset-block:0;inset-inline-start:0;width:25%;background:var(--accent);border-radius:4px;transition:width .35s ease}
+.pg-dots{display:flex;justify-content:space-between;list-style:none;margin:14px 0 0;padding:0}
+.pg-dots li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.pg-dots b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);font-size:12px;font-weight:700;transition:.25s}
+.pg-dots li.passed b{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.pg-dots li.cur b{border-color:var(--accent);color:var(--accent)}
+.pg-dots li.cur,.pg-dots li.passed{color:var(--ink)}
+.step{animation:stepIn .3s ease}
+.step[hidden]{display:none}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.step{animation:none}.pg-bar i{transition:none}}
+.step-title{font:var(--dw) clamp(24px,3.2vw,32px)/1.2 var(--display);margin:0 0 6px;outline:0}
+.step-sub{color:var(--muted);margin:0 0 22px}
+.step .styles-field{margin-top:0}
+.wiz-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:30px}
+.wiz-nav [hidden]{display:none}
+.wiz-nav #nextBtn,.wiz-nav #submitBtn{margin-inline-start:auto}
+.btn.ghost,button.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.wiz-note{color:var(--muted);font-size:14px;margin:12px 0 0;text-align:end}
+
+/* ---------- מובייל ---------- */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;gap:40px;padding:48px 0 56px}
+  .hero-art{justify-content:center;padding:6px 14px 14px}
+  .pitch-lines{display:none}
+  .poster{width:min(100%,230px);transform:rotate(-2deg)}
+  .styles{grid-template-columns:repeat(3,1fr)}
+  .mini{min-height:210px}
+}
+@media (max-width:620px){
+  .wrap{padding:0 20px}
+  .steps{grid-template-columns:1fr;gap:20px}
+  .styles{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+  .panel{padding:22px 18px}
+  .done{padding:34px 20px}
+  .btn,button.btn{width:100%;text-align:center}
+  .nav .btn{width:auto}
+  .pg-dots li span{display:none}
+  .pg-dots{justify-content:space-between}
+  .wiz-nav{flex-direction:column-reverse;align-items:stretch}
+  .wiz-nav #nextBtn,.wiz-nav #submitBtn{margin-inline-start:0}
+  .wiz-note{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <nav class="nav" aria-label="ראשי">
+    <span class="brand">MATCHDAY / STUDIO</span>
+    <a class="btn" href="#order">להזמנה</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+
+    <div>
+      <p class="kicker">פוסטר <bdi dir="ltr">MATCH DAY</bdi> אישי לשחקני כדורגל</p>
+      <h1>הרגע שלך.<span class="l2">הבמה שלך.</span></h1>
+      <p class="lead">הצבעים שלך, הסמל שלך, הסיפור שלך.</p>
+      <a class="btn" href="#order">בוא ניצור את הפוסטר שלך ←</a>
+      <ul class="facts">
+        <li>פורמט סטורי 9:16</li>
+        <li>הצילום המקורי שלך</li>
+        <li>אישור אישי לפני מסירה</li>
+      </ul>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <svg class="pitch-lines" viewBox="0 0 600 700" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="300" cy="350" r="215"/><circle cx="300" cy="350" r="215" stroke-dasharray="2 10" transform="scale(1.12) translate(-39 -47)"/>
+      </svg>
+      <div class="poster" id="heroPoster">
+        <img class="poster-photo" id="heroPhoto" src="assets/hero-poster.jpg" alt="" decoding="async">
+        <div class="poster-top" dir="ltr">MATCH DAY</div>
+        <div class="poster-num" dir="ltr">10</div>
+        <div>
+          <div class="poster-name">שם השחקן</div>
+          <div class="poster-fx">הקבוצה שלך נגד היריבה</div>
+          <div class="poster-time" dir="ltr">20:30</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ol class="steps">
+    <li><strong>שולחים תמונות</strong><span>בוחרים סגנון, מעלים תמונות וממלאים פרטי משחק</span></li>
+    <li><strong>מעצבים</strong><span>משלבים אותך, את סמלי הקבוצות ואת אווירת המשחק</span></li>
+    <li><strong>מקבלים ומעלים</strong><span>מקבלים פוסטר אישי מוכן לסטורי של יום המשחק</span></li>
+  </ol>
+
+  <section id="order" aria-labelledby="order-title">
+    <h2 class="section-title" id="order-title">הסגנון שלך. הסיפור שלך.</h2>
+    <p class="section-sub">ארבעה שלבים קצרים. לוקח בערך שתי דקות.</p>
+
+    <datalist id="teamList"></datalist>
+    <form id="orderForm" novalidate>
+      <div class="panel" id="formPanel">
+
+        <div class="progress" id="progress" tabindex="-1">
+          <div class="pg-text"><strong id="pgNum">שלב 1 מתוך 4</strong><span id="pgName">סגנון</span></div>
+          <div class="pg-bar" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="pgBar"><i id="pgFill"></i></div>
+          <ol class="pg-dots" id="pgDots">
+            <li><b>1</b><span>סגנון</span></li>
+            <li><b>2</b><span>תמונות</span></li>
+            <li><b>3</b><span>פרטי משחק</span></li>
+            <li><b>4</b><span>אישור</span></li>
+          </ol>
+        </div>
+
+        <fieldset id="fields">
+
+          <section class="step" data-step="1">
+            <h3 class="step-title" tabindex="-1">בחרו סגנון</h3>
+            <p class="step-sub">הכרטיסים הם המחשה בלבד, והעיצוב הסופי יותאם לצילומים שלכם.</p>
+            <fieldset class="styles-field" id="styleField">
+              <legend class="sr">סגנון עיצוב</legend>
+              <div class="styles" id="styles"></div>
+            </fieldset>
+          </section>
+
+          <section class="step" data-step="2" hidden>
+            <h3 class="step-title" tabindex="-1">העלו תמונות</h3>
+            <p class="step-sub">תמונות ברורות ובאיכות טובה, בלי פילטרים. אפשר 1 עד 3.</p>
+            <div class="grid">
+              <div class="field full" id="photoField">
+                <span class="lbl" id="photoLbl">תמונות מקוריות, בין 1 ל-3 *</span>
+                <label class="drop">
+                  <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" multiple aria-labelledby="photoLbl">
+                  <strong>בחירת תמונות</strong>
+                  <small>JPG, PNG או WEBP. עד 8MB לתמונה. אפשר להוסיף בכמה פעמים.</small>
+                </label>
+                <ul class="thumbs" id="thumbs"></ul>
+              </div>
+              <label class="field full"><span class="lbl">הרכב תמונות</span>
+                <select name="photoLayout"></select></label>
+            </div>
+          </section>
+
+          <section class="step" data-step="3" hidden>
+            <h3 class="step-title" tabindex="-1">פרטי המשחק</h3>
+            <div class="grid">
+              <label class="field"><span class="lbl">שם השחקן כפי שיופיע בפוסטר *</span>
+                <input type="text" name="player" maxlength="100" autocomplete="off"></label>
+
+              <label class="field"><span class="lbl">מספר חולצה</span>
+                <input type="text" name="number" inputmode="numeric" maxlength="3" autocomplete="off"></label>
+
+              <label class="field"><span class="lbl">קבוצת השחקן *</span>
+                <input type="text" name="team" maxlength="100" list="teamList" autocomplete="off">
+                <small>אפשר להתחיל להקליד ולבחור מהרשימה, כדי שנמצא את הסמל המדויק.</small></label>
+
+              <label class="field"><span class="lbl">הקבוצה היריבה *</span>
+                <input type="text" name="opponent" maxlength="100" list="teamList" autocomplete="off"></label>
+
+              <label class="field"><span class="lbl">מסגרת המשחק *</span>
+                <select name="competition"><option value="">בחרו מסגרת</option></select></label>
+
+              <label class="field"><span class="lbl">אצטדיון *</span>
+                <input type="text" name="venue" maxlength="100"></label>
+
+              <label class="field"><span class="lbl">שעת המשחק בישראל *</span>
+                <input type="time" name="time" dir="ltr"></label>
+
+              <label class="field"><span class="lbl">תאריך המשחק (לתיאום בלבד) *</span>
+                <input type="date" name="date" dir="ltr"></label>
+
+              <label class="field"><span class="lbl">שידור המשחק *</span>
+                <select name="broadcast"><option value="">בחרו</option></select></label>
+
+              <label class="field" id="channelField" hidden><span class="lbl">איזה ערוץ משדר? *</span>
+                <input type="text" name="broadcastChannel" maxlength="60" placeholder="למשל: ערוץ 55"></label>
+            </div>
+          </section>
+
+          <section class="step" data-step="4" hidden>
+            <h3 class="step-title" tabindex="-1">כמעט סיימנו</h3>
+            <div class="grid">
+              <label class="field full"><span class="lbl">מספר נייד ליצירת קשר בוואטסאפ *</span>
+                <input type="tel" name="contact" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" placeholder="050-1234567">
+                <small>ניצור איתך קשר אישית במספר הזה. אין הודעה אוטומטית.</small></label>
+
+              <label class="field full"><span class="lbl">בקשות והערות</span>
+                <textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+            </div>
+
+            <label class="trap" aria-hidden="true">Website<input type="text" tabindex="-1" autocomplete="off" name="website"></label>
+
+            <label class="check"><input type="checkbox" name="rights">
+              <span>יש לי רשות להשתמש בתמונות לצורך ההזמנה. *</span></label>
+            <label class="check"><input type="checkbox" name="terms">
+              <span>קראתי ואני מסכים/ה ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות והתנאים</a>, כולל שמירת החומרים ופרטי הקשר לצורך הטיפול בהזמנה. אם השחקן מתחת לגיל 18, אני ההורה או האפוטרופוס שלו, או שיש לי את הסכמתם. *</span></label>
+          </section>
+
+          <div class="wiz-nav">
+            <button class="btn ghost" type="button" id="backBtn" hidden>→ חזרה</button>
+            <button class="btn" type="button" id="nextBtn">המשך ←</button>
+            <button class="btn" type="submit" id="submitBtn" hidden>שליחת הזמנה לבדיקה ←</button>
+          </div>
+          <p class="wiz-note" id="wizNote" hidden>אין חיוב בשלב הזה. הפוסטר לא נמסר בלי אישור אישי.</p>
+        </fieldset>
+        <div class="message" id="msg" role="alert" aria-live="assertive"></div>
+      </div>
+    </form>
+
+    <div class="done" id="done" hidden tabindex="-1">
+      <h2>ההזמנה התקבלה</h2>
+      <div class="ref" id="doneRef"></div>
+      <p>בדקנו שהכול הגיע. נחזור אליך אישית בוואטסאפ למספר שהשארת, כדי לתאם זמינות, מחיר ותיקונים לפני שמתחילים.</p>
+      <a class="btn" id="waBtn" href="#" hidden target="_blank" rel="noopener">כתבו לי בוואטסאפ</a>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">לפני ששורקים לפתיחה.</h2>
+    <details class="q"><summary>מה מקבלים?</summary>
+      <p>פוסטר אישי בגודל 1080×1920 לסטורי. תאריך ובית/חוץ אינם מופיעים בעיצוב. ערוץ שידור מופיע רק אם מסרתם שיש שידור.</p></details>
+    <details class="q"><summary>מתי מקבלים את הפוסטר?</summary>
+      <p>המועד בטופס הוא בקשה. זמינות, מחיר ומספר תיקונים יתואמו איתך אישית לאחר בדיקת החומרים, לפני תחילת העבודה. אין חיוב באתר.</p></details>
+    <details class="q"><summary>אילו תמונות לצרף?</summary>
+      <p>צילום חד ומקורי, עדיף פורטרט וצילום פעולה. אין לשנות פנים או להמציא תנוחה שלא צולמה. להרכב של פורטרט וצילום פעולה נדרשות שתי תמונות, ולקולאז׳ הגדול שלוש.</p></details>
+    <details class="q"><summary>איך משתמשים בחומרים שלי?</summary>
+      <p>פרטי הקשר והתמונות מיועדים לטיפול בהזמנה בלבד, ואינם מוצגים ללקוחות אחרים. התמונות ופרטי המשחק (בלי מספר הטלפון) עוברים לכלי עיצוב ובינה מלאכותית לצורך יצירת הפוסטר. אפשר לבקש מחיקה בכל שלב. הסכמת ההזמנה אינה אישור להצגה בתיק עבודות. הפרטים המלאים ב<a href="privacy.html">מדיניות הפרטיות</a>.</p></details>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="meta"><span>MATCHDAY STUDIO</span><span>כל פוסטר עובר אישור אישי</span><span>אין חיוב באתר</span></div>
+    <span class="links"><a href="privacy.html">מדיניות פרטיות ותנאים</a></span>
+  </div>
+</footer>
+
+<script type="module">
+import { STYLES, COMPETITIONS, LAYOUTS, BROADCASTS, LIMITS, TEAM_LOGOS } from './js/data.js';
+import { validateOrder, buildOrderDoc, checkImageFile } from './js/validate.js';
+import { compressImage } from './js/images.js';
+import { loadDb, isConfigured } from './js/firebase-init.js';
+import { SITE } from './firebase-config.js';
+window.__mdReady = true;
+
+const $ = (s, r = document) => r.querySelector(s);
+const form = $('#orderForm');
+const msg = $('#msg');
+
+/* ---------- מחליף ערכות (רק עם ?preview) ---------- */
+if (new URLSearchParams(location.search).has('preview')) {
+  const cur = document.documentElement.dataset.theme;
+  const box = document.createElement('div');
+  box.className = 'switcher';
+  [['gold', 'זהב לילה'], ['pitch', 'קו הדשא'], ['platinum', 'פלטינה']].forEach(([id, he]) => {
+    const a = document.createElement('a');
+    a.href = `?theme=${id}&preview`;
+    a.textContent = he;
+    if (id === cur) a.className = 'on';
+    box.appendChild(a);
+  });
+  document.body.appendChild(box);
+}
+
+/* ---------- בניית כרטיסי סגנון ואפשרויות הבחירה ---------- */
+const stylesBox = $('#styles');
+STYLES.forEach((s) => {
+  const lab = document.createElement('label');
+  lab.className = `style s-${s.id}`;
+  lab.innerHTML = `<input type="radio" name="styleId" value="${s.id}">
+    <span class="mini"><small>${s.code}</small>
+      <strong>MATCH<br>DAY.</strong>
+      <span><span class="en">${s.en}</span><br><span class="he">${s.he}</span></span></span>`;
+  stylesBox.appendChild(lab);
+});
+
+const fill = (sel, list, withBlank) => {
+  const el = form.elements[sel];
+  list.forEach((o) => el.add(new Option(o.he, o.id)));
+  return el;
+};
+fill('competition', COMPETITIONS);
+fill('broadcast', BROADCASTS);
+fill('photoLayout', LAYOUTS);
+TEAM_LOGOS.forEach((t) => { const o = document.createElement('option'); o.value = t; $('#teamList').appendChild(o); });
+
+/* תמונת הדוגמה בכרטיס: אם הקובץ assets/hero-poster.jpg קיים, הוא מחליף את ההמחשה */
+const heroPhoto = $('#heroPhoto');
+const markPhoto = () => { if (heroPhoto.naturalWidth > 0) $('#heroPoster').classList.add('has-photo'); };
+if (heroPhoto.complete) markPhoto(); else heroPhoto.addEventListener('load', markPhoto);
+
+const today = new Date();
+form.elements.date.min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+/* ---------- שדה ערוץ מותנה ---------- */
+const channelField = $('#channelField');
+const syncChannel = () => { channelField.hidden = form.elements.broadcast.value !== 'yes'; };
+form.elements.broadcast.addEventListener('change', syncChannel);
+syncChannel();
+
+/* ---------- ניהול תמונות ---------- */
+let files = [];
+const thumbs = $('#thumbs');
+const photoInput = $('#photoInput');
+
+function showMsg(text, kind = 'error') {
+  msg.textContent = text;
+  msg.className = `message ${kind}`;
+}
+function clearErrors() {
+  showMsg('', '');
+  form.querySelectorAll('.invalid').forEach((el) => el.classList.remove('invalid'));
+  form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+}
+function renderThumbs() {
+  thumbs.querySelectorAll('img').forEach((i) => URL.revokeObjectURL(i.src));
+  thumbs.replaceChildren();
+  files.forEach((f, i) => {
+    const li = document.createElement('li');
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(f);
+    img.alt = `תמונה ${i + 1}`;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = '✕';
+    b.setAttribute('aria-label', `הסרת תמונה ${i + 1}`);
+    b.addEventListener('click', () => { files.splice(i, 1); renderThumbs(); });
+    li.append(img, b);
+    thumbs.appendChild(li);
+  });
+}
+photoInput.addEventListener('change', () => {
+  clearErrors();
+  const problems = [];
+  for (const f of Array.from(photoInput.files)) {
+    if (files.length >= LIMITS.maxPhotos) { problems.push('אפשר להעלות עד 3 תמונות. התמונות העודפות לא נוספו.'); break; }
+    const err = checkImageFile(f);
+    if (err) { problems.push(`${f.name}: ${err}`); continue; }
+    if (files.some((x) => x.name === f.name && x.size === f.size && x.lastModified === f.lastModified)) continue;
+    files.push(f);
+  }
+  photoInput.value = '';
+  renderThumbs();
+  if (problems.length) showMsg(problems.join('\n'));
+});
+
+/* ---------- שליחה ---------- */
+const field = (name) => form.elements[name];
+function stepOf(err) {
+  if (err.field === 'styleId') return 1;
+  if (err.field === 'photos') return 2;
+  const el = field(err.field);
+  const st = el && el.closest ? el.closest('.step') : null;
+  return st ? Number(st.dataset.step) : 4;
+}
+function focusError(err) {
+  const st = stepOf(err);
+  if (st !== cur) goStep(st, { scroll: false });
+  let focusEl, scrollEl;
+  if (err.field === 'photos') {
+    $('#photoField').classList.add('invalid');
+    focusEl = photoInput; scrollEl = $('#photoField');
+  } else if (err.field === 'styleId') {
+    focusEl = form.querySelector('input[name=styleId]'); scrollEl = $('#styleField');
+  } else {
+    focusEl = field(err.field); scrollEl = focusEl;
+    if (focusEl) { focusEl.classList.add('invalid'); focusEl.setAttribute('aria-invalid', 'true'); }
+  }
+  if (focusEl) focusEl.focus({ preventScroll: true });
+  if (scrollEl) scrollEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+const setBusy = (b) => { $('#fields').disabled = b; $('#submitBtn').disabled = b; };
+
+function friendly(err) {
+  switch (err && err.code) {
+    case 'not-configured': return 'האתר עדיין לא מחובר לשירות שמירת ההזמנות. נא ליצור קשר עם בעל העסק.';
+    case 'image-decode': return 'לא הצלחנו לקרוא אחת התמונות. נסו תמונה אחרת בפורמט JPG או PNG.';
+    case 'image-too-large': return 'אחת התמונות כבדה מדי גם אחרי כיווץ. נסו תמונה אחרת.';
+    case 'permission-denied': return 'ההזמנה לא נקלטה. בדקו שכל הפרטים תקינים ונסו שוב.';
+    case 'unavailable': return 'אין חיבור לשרת. בדקו את החיבור לאינטרנט ונסו שוב.';
+    default: return 'משהו השתבש בשליחה. נסו שוב בעוד רגע.';
+  }
+}
+
+async function notifyOwner(orderId, doc) {
+  const n = SITE.emailNotify || {};
+  if (!n.serviceId || !n.templateId || !n.publicKey) return;
+  try {
+    await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id: n.serviceId, template_id: n.templateId, user_id: n.publicKey,
+        template_params: {
+          player: doc.player, team: doc.team, opponent: doc.opponent,
+          style: doc.styleName, game_date: doc.date, game_time: doc.time,
+          ref: orderId.slice(0, 6).toUpperCase(),
+          admin_link: new URL('admin/', location.href).href,
+        },
+      }),
+    });
+  } catch (_) { /* ההזמנה כבר נשמרה. ההתראה היא בונוס */ }
+}
+
+function showDone(ref, doc) {
+  $('#formPanel').hidden = true;
+  $('#styleField').hidden = true;
+  $('.section-sub').hidden = true;
+  $('#doneRef').textContent = ref;
+  const wa = $('#waBtn');
+  if (SITE.ownerWhatsapp) {
+    const text = `שלום, שלחתי הזמנה לפוסטר (${ref})${doc ? ` עבור ${doc.player}` : ''}.`;
+    wa.href = `https://wa.me/${SITE.ownerWhatsapp}?text=${encodeURIComponent(text)}`;
+    wa.hidden = false;
+  }
+  const d = $('#done');
+  d.hidden = false;
+  d.focus();
+  d.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* ---------- שלבים ---------- */
+const STEP_NAMES = ['סגנון', 'תמונות', 'פרטי משחק', 'אישור'];
+const stepEls = Array.from(form.querySelectorAll('.step'));
+const dotEls = Array.from(document.querySelectorAll('#pgDots li'));
+let cur = 1;
+function goStep(n, { scroll = true } = {}) {
+  cur = Math.min(Math.max(n, 1), STEP_NAMES.length);
+  stepEls.forEach((el) => { el.hidden = Number(el.dataset.step) !== cur; });
+  $('#pgNum').textContent = `שלב ${cur} מתוך ${STEP_NAMES.length}`;
+  $('#pgName').textContent = STEP_NAMES[cur - 1];
+  $('#pgFill').style.width = `${(cur / STEP_NAMES.length) * 100}%`;
+  $('#pgBar').setAttribute('aria-valuenow', String(cur));
+  dotEls.forEach((li, i) => {
+    li.classList.toggle('passed', i + 1 < cur);
+    li.classList.toggle('cur', i + 1 === cur);
+    if (i + 1 === cur) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+  });
+  $('#backBtn').hidden = cur === 1;
+  $('#nextBtn').hidden = cur === STEP_NAMES.length;
+  $('#submitBtn').hidden = cur !== STEP_NAMES.length;
+  $('#wizNote').hidden = cur !== STEP_NAMES.length;
+  if (scroll) {
+    const t = stepEls[cur - 1].querySelector('.step-title');
+    if (t) t.focus({ preventScroll: true });
+    $('#progress').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+window.__goStep = goStep;
+function readValues() {
+  const fd = new FormData(form);
+  const v = Object.fromEntries(fd.entries());
+  v.rights = fd.get('rights') === 'on';
+  v.terms = fd.get('terms') === 'on';
+  return v;
+}
+function nextStep() {
+  clearErrors();
+  const errors = validateOrder(readValues(), files.length).filter((x) => stepOf(x) === cur);
+  if (errors.length) {
+    showMsg(errors.map((x) => x.msg).join('\n'));
+    focusError(errors[0]);
+    return;
+  }
+  goStep(cur + 1);
+}
+$('#nextBtn').addEventListener('click', nextStep);
+$('#backBtn').addEventListener('click', () => { clearErrors(); goStep(cur - 1); });
+goStep(1, { scroll: false });
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (cur < STEP_NAMES.length) { nextStep(); return; } // Enter באמצע התהליך = המשך
+  clearErrors();
+  const fd = new FormData(form);
+
+  // מלכודת בוטים: אם השדה הנסתר מלא, מדמים הצלחה ולא שולחים כלום
+  if (fd.get('website')) { showDone('------'); return; }
+
+  const v = readValues();
+
+  const errors = validateOrder(v, files.length);
+  if (errors.length) {
+    showMsg(errors.map((x) => x.msg).join('\n'));
+    focusError(errors[0]);
+    return;
+  }
+
+  try {
+    if (Number(localStorage.getItem('md_last') || 0) > Date.now() - 60000) {
+      showMsg('כבר שלחתם הזמנה לפני רגע. אם זו הזמנה נוספת, נא להמתין דקה ולנסות שוב.');
+      return;
+    }
+  } catch (_) {}
+
+  if (!isConfigured()) { showMsg(friendly({ code: 'not-configured' })); return; }
+
+  setBusy(true);
+  try {
+    const { fs, db } = await loadDb();
+    showMsg('מכינים את התמונות…', 'info');
+    const photos = [];
+    for (const f of files) {
+      const c = await compressImage(f);
+      photos.push({ data: c.data, width: c.width, height: c.height, type: 'image/jpeg', name: f.name.slice(0, 200) });
+    }
+
+    showMsg('שולחים את ההזמנה…', 'info');
+    const orderRef = fs.doc(fs.collection(db, 'orders'));
+    const doc = buildOrderDoc(v, photos.length);
+    const batch = fs.writeBatch(db);
+    batch.set(orderRef, { ...doc, createdAt: fs.serverTimestamp() });
+    photos.forEach((p, i) => batch.set(fs.doc(db, 'orders', orderRef.id, 'photos', String(i)), p));
+    await batch.commit();
+
+    try { localStorage.setItem('md_last', String(Date.now())); } catch (_) {}
+    notifyOwner(orderRef.id, doc);
+    showMsg('', '');
+    showDone(orderRef.id.slice(0, 6).toUpperCase(), doc);
+  } catch (err) {
+    console.error(err);
+    showMsg(friendly(err));
+  } finally {
+    setBusy(false);
+  }
+});
+
+/* ניקוי סימון שגיאה כשמתחילים לתקן */
+form.addEventListener('input', (e) => {
+  e.target.classList?.remove('invalid');
+  e.target.removeAttribute?.('aria-invalid');
+});
+</script>
+<script>
+/* אם האתר נפתח ישירות מהמחשב (file://) הדפדפן חוסם את קבצי ה-JS, ולכן מוצגת הודעה במקום דף שבור */
+setTimeout(function () {
+  if (window.__mdReady) return;
+  var d = document.createElement('div');
+  d.setAttribute('role', 'alert');
+  d.style.cssText = 'position:fixed;inset:auto 12px 12px 12px;z-index:99;background:#fff;color:#111;border:2px solid #d6b06a;border-radius:10px;padding:14px 16px;font:16px/1.5 system-ui,sans-serif;text-align:right;box-shadow:0 10px 40px #0008';
+  d.innerHTML = '<strong>האתר לא נטען במלואו.</strong> כנראה שנפתח ישירות מתיקייה. לתצוגה מלאה פתחו את הקובץ <b dir="ltr">preview.html</b> מאותה תיקייה (אחרי חילוץ ה-ZIP), או היכנסו לכתובת האתר ב-GitHub Pages.';
+  document.body.appendChild(d);
+}, 1500);
+</script>
+</body>
+</html>
