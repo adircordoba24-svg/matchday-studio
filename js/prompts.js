@@ -202,9 +202,22 @@ export function buildPromptVars(o) {
   };
 }
 
+// ---------------- הנחיה נוספת: גביע המדינה בלבד ----------------
+export const STATE_CUP_TROPHY_PROMPT = `הנחיה נוספת למשחק גביע המדינה:
+שלב בעיצוב גם את הגביע האמיתי, בנוסף ללוגו המפעל.
+השתמש בצילום המקור השמור בספריית המפעל ב-Drive. בודד ממנו את הגביע בלבד, ללא אנשים או רקע. שמור על צורתו, הידיות, המכסה, הבסיס והפרטים המקוריים. אין להחליף אותו בגביע גנרי או להמציא את צורתו.
+מקם את הגביע כשכבה משנית מאחורי השחקן, מעט לצד הגוף, כך שחלק ממנו יוסתר באופן טבעי. גודלו יהיה כ-15%–22% מגובה הפוסטר, עם שקיפות וניגודיות נמוכות וגוון כסוף-כחול המותאם לעיצוב.
+הגביע צריך להשתלב ברקע בעדינות, בלי להתחרות בפנים, בכותרת, בסמלי הקבוצות או בפרטי המשחק. אין להוסיף מסגרת או מלבן רקע סביבו.
+שמור על קרדיט ותנאי הרישיון של צילום המקור. אם צילום הגביע אינו זמין, בקש את הקובץ ואל תייצר גביע חלופי.
+צילום המקור ב-Drive: https://drive.google.com/file/d/1-pyhXWG_sy1x-GHUkAg22UP39Jv5nRPS/view
+קרדיט והנחיות שימוש: https://drive.google.com/file/d/15Ui3xHJnov6YiVqsxMglBL7wgPhcQyZk/view`;
+
 // הפרומפט המלא להזמנה: הנחיות קבועות + פרומפט הסגנון הנבחר
 export function buildPrompt(o) {
   const vars = buildPromptVars(o);
   const stylePrompt = fillTemplate(STYLE_PROMPTS[o.styleId] || "", vars);
-  return fillTemplate(MASTER_PROMPT, { ...vars, STYLE_PROMPT: stylePrompt }).replace(/\n{3,}/g, "\n\n").trim();
+  const main = fillTemplate(MASTER_PROMPT, { ...vars, STYLE_PROMPT: stylePrompt });
+  // גביע המדינה בלבד: ההנחיה מתווספת בסוף הפרומפט, בכל סגנון. במשחקי ליגה אין גביע.
+  const full = o.competition === "state-cup" ? main + "\n\n" + STATE_CUP_TROPHY_PROMPT : main;
+  return full.replace(/\n{3,}/g, "\n\n").trim();
 }
