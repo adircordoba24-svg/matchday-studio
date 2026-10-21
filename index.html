@@ -196,6 +196,29 @@ details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
 .btn.ghost,button.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .wiz-note{color:var(--muted);font-size:14px;margin:12px 0 0;text-align:end}
 
+/* ---------- אנימציות (מכובדות רק כשלא ביקשו להפחית תנועה) ---------- */
+@keyframes rise{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
+@keyframes posterIn{from{opacity:0;translate:0 34px;scale:.92}to{opacity:1;translate:0 0;scale:1}}
+@keyframes glowFlash{0%{opacity:0;scale:.55}22%{opacity:.95;scale:1.12}100%{opacity:.3;scale:1}}
+@keyframes stepIn{from{opacity:0;translate:var(--dx,24px) 0}to{opacity:1;translate:0 0}}
+@keyframes goldPulse{0%{box-shadow:0 0 0 0 rgba(214,176,106,.55)}70%{box-shadow:0 0 0 14px rgba(214,176,106,0)}100%{box-shadow:0 0 0 0 rgba(214,176,106,0)}}
+@media (prefers-reduced-motion:no-preference){
+  .hero > div:first-child > *{opacity:0;animation:rise .75s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero > div:first-child > :nth-child(1){animation-delay:.05s}
+  .hero > div:first-child > :nth-child(2){animation-delay:.2s}
+  .hero > div:first-child > :nth-child(3){animation-delay:.4s}
+  .hero > div:first-child > :nth-child(4){animation-delay:.55s}
+  .hero > div:first-child > :nth-child(5){animation-delay:.7s}
+  .hero-art .poster{opacity:0;animation:posterIn .95s .45s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero-art::before{content:"";position:absolute;inset:8% 6%;z-index:0;border-radius:50%;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(70,140,255,.75),rgba(70,140,255,.25) 55%,transparent 75%);
+    filter:blur(26px);opacity:0;animation:glowFlash 1.9s .3s ease-out forwards}
+  .rv{opacity:0;translate:0 26px;transition:opacity .7s ease,translate .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;translate:0 0}
+  .plan.featured.in{animation:goldPulse 1.4s .5s ease-out 1}
+  .step.slide{animation:stepIn .38s cubic-bezier(.2,.7,.2,1)}
+}
+
 /* ---------- מובייל ---------- */
 @media (max-width:900px){
   .hero{grid-template-columns:1fr;gap:40px;padding:48px 0 56px}
@@ -681,6 +704,18 @@ function rememberDetails(v) {
   } catch (_) {}
 }
 
+/* ---------- חשיפה בגלילה ---------- */
+(() => {
+  const items = Array.from(document.querySelectorAll('.plan, .steps li, .faq .q'));
+  if (!items.length || !('IntersectionObserver' in window) ||
+      (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  items.forEach((el, i) => { el.classList.add('rv'); el.style.transitionDelay = `${(i % 3) * 90}ms`; });
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.18 });
+  items.forEach((el) => io.observe(el));
+})();
+
 /* ---------- מחירים ומנוי ---------- */
 $('#subToggle').addEventListener('click', (e) => {
   const p = $('#subPanel'); const open = p.hidden;
@@ -726,6 +761,7 @@ const stepEls = Array.from(form.querySelectorAll('.step'));
 const dotEls = Array.from(document.querySelectorAll('#pgDots li'));
 let cur = 1;
 function goStep(n, { scroll = true } = {}) {
+  const prev = cur;
   cur = Math.min(Math.max(n, 1), STEP_NAMES.length);
   stepEls.forEach((el) => { el.hidden = Number(el.dataset.step) !== cur; });
   $('#pgNum').textContent = `שלב ${cur} מתוך ${STEP_NAMES.length}`;
@@ -737,6 +773,11 @@ function goStep(n, { scroll = true } = {}) {
     li.classList.toggle('cur', i + 1 === cur);
     if (i + 1 === cur) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
   });
+  if (prev !== cur) {
+    const el = stepEls[cur - 1];
+    el.style.setProperty('--dx', cur > prev ? '-26px' : '26px'); // RTL: קדימה נכנס מצד שמאל
+    el.classList.remove('slide'); void el.offsetWidth; el.classList.add('slide');
+  }
   $('#backBtn').hidden = cur === 1;
   $('#nextBtn').hidden = cur === STEP_NAMES.length;
   $('#submitBtn').hidden = cur !== STEP_NAMES.length;
