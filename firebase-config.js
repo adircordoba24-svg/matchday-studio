@@ -7,10 +7,10 @@
 //    אלה לא סיסמאות. הם גלויים לכל אתר שמשתמש ב-Firebase.
 //    ההגנה האמיתית נמצאת בחוקים (firestore.rules) ובהתחברות של המנהל.
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  appId: "PASTE_APP_ID",
+  apiKey: "AIzaSyA31DFE9bLbUmEgURR2BLnYZvDuPGIG0IM",
+  authDomain: "matchday-studio-ae0db.firebaseapp.com",
+  projectId: "matchday-studio-ae0db",
+  appId: "1:159820951429:web:20f57f3ec905a75e5a1eec",
 };
 
 export const SITE = {
