@@ -19,7 +19,7 @@ service cloud.firestore {
           'player', 'number', 'contact', 'team', 'opponent', 'competition',
           'competitionLabel', 'venue', 'time', 'date', 'broadcast',
           'broadcastChannel', 'photoLayout', 'styleId', 'styleName',
-          'photoCount', 'notes', 'rights', 'terms', 'status', 'createdAt'
+          'photoCount', 'notes', 'rights', 'terms', 'ageOk', 'plan', 'status', 'createdAt'
         ].toSet()
         && d.player is string && d.player.size() >= 1 && d.player.size() <= 100
         && d.number is string && d.number.matches('^[0-9]{0,3}$')
@@ -41,6 +41,8 @@ service cloud.firestore {
         && d.notes is string && d.notes.size() <= 2000
         && d.rights == true
         && d.terms == true
+        && d.ageOk == true
+        && d.plan in ['single', 'subscription']
         && d.status == 'new'
         && d.createdAt == request.time;
     }

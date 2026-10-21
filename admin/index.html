@@ -324,6 +324,7 @@ function orderHTML(o) {
         <dt>מסגרת</dt><dd>${esc(o.competitionLabel)}</dd>
         <dt>אצטדיון</dt><dd>${esc(o.venue)}</dd>
         <dt>שידור</dt><dd>${bc}</dd>
+        <dt>סוג הזמנה</dt><dd>${o.plan === 'subscription' ? 'מנוי חודשי (100 ₪ ל-4 משחקים)' : 'משחק בודד (החל מ-39 ₪)'}</dd>
         <dt>סגנון</dt><dd>${esc(style ? `${style.code} ${style.en} (${style.he})` : o.styleName)}</dd>
         <dt>לוגו קבוצה</dt><dd>${lg(L.team)}</dd>
         <dt>לוגו יריבה</dt><dd>${lg(L.opponent)}</dd>

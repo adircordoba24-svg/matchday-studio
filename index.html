@@ -131,6 +131,29 @@ input.invalid,select.invalid,textarea.invalid,.field.invalid .drop{border-color:
 [hidden]{display:none!important}
 
 /* ---------- שאלות ---------- */
+.pricing{margin:0 0 76px}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.plan{border:1px solid var(--line);border-radius:calc(var(--r) + 4px);background:var(--surface);padding:26px 24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.plan.featured{border-color:var(--accent)}
+.plan-name{font-size:14px;letter-spacing:.08em;color:var(--accent);font-weight:700}
+.plan-price{font-size:clamp(30px,4vw,40px);font-weight:800;line-height:1.1}
+.plan-price small{font-size:15px;font-weight:400;color:var(--muted)}
+.plan p{margin:0;color:var(--muted)}
+.plan .btn{margin-top:auto}
+.sub-panel{margin-top:16px;border:1px solid var(--accent);border-radius:calc(var(--r) + 4px);padding:24px;background:var(--surface)}
+.sub-panel h3{margin:0 0 10px;font-size:20px}
+.sub-panel ul{margin:0 0 18px;padding-inline-start:20px;color:var(--muted)}
+.sub-panel li{margin-bottom:6px}
+.plan-pick{display:grid;gap:10px;margin:0 0 22px;padding:0;border:0}
+.plan-pick legend{padding:0;margin-bottom:8px;font-weight:700}
+.plan-pick label{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;cursor:pointer}
+.plan-pick input{margin-top:4px;accent-color:var(--accent)}
+.saved{margin:18px 0 0;padding:14px 16px;border:1px solid var(--accent);border-radius:var(--r);background:var(--surface);display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.saved span{flex:1 1 220px}
+.saved .btn{padding:10px 16px;font-size:15px}
+.done .share{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.note-small{color:var(--muted);font-size:14px;margin:6px 0 0}
+@media (max-width:760px){.plans{grid-template-columns:1fr}}
 .faq{margin:84px 0 60px}
 .faq h2{font-size:clamp(28px,3.6vw,38px);margin-bottom:18px}
 details.q{border-bottom:1px solid var(--line)}
@@ -246,10 +269,44 @@ details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
     <li><strong>מקבלים ומעלים</strong><span>מקבלים פוסטר אישי מוכן לסטורי של יום המשחק</span></li>
   </ol>
 
+  <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+    <h2 class="section-title" id="pricing-title">מחיר פשוט.</h2>
+    <p class="section-sub">משלמים רק אחרי שאישרת את הפוסטר. התשלום מתואם איתך אישית, אין חיוב באתר.</p>
+    <div class="plans">
+      <div class="plan">
+        <span class="plan-name">פוסטר למשחק</span>
+        <div class="plan-price">החל מ-39 ₪</div>
+        <p>פוסטר אישי אחד לסטורי של יום המשחק.</p>
+        <a class="btn ghost" href="#order" data-plan="single">להזמנה</a>
+      </div>
+      <div class="plan featured">
+        <span class="plan-name">מנוי חודשי</span>
+        <div class="plan-price">100 ₪ <small>לחודש</small></div>
+        <p>4 פוסטרי משחק בחודש.</p>
+        <button class="btn" type="button" id="subToggle" aria-expanded="false" aria-controls="subPanel">מה מקבלים במנוי?</button>
+      </div>
+    </div>
+    <div class="sub-panel" id="subPanel" hidden>
+      <h3>מנוי חודשי: 4 פוסטרי משחק בחודש</h3>
+      <ul>
+        <li>4 פוסטרים אישיים בחודש, אחד לכל משחק.</li>
+        <li>אותו שחקן ואותו קו עיצובי לאורך החודש, עם אפשרות להחליף סגנון.</li>
+        <li>תיאום ישיר מולי בוואטסאפ. אתם שולחים משחק, אני מחזיר פוסטר.</li>
+        <li>המחיר 100 ₪ לחודש עבור 4 משחקים, במקום 39 ₪ ומעלה לכל פוסטר בנפרד.</li>
+      </ul>
+      <a class="btn" href="#order" data-plan="subscription">אני רוצה מנוי</a>
+    </div>
+  </section>
+
   <section id="order" aria-labelledby="order-title">
     <h2 class="section-title" id="order-title">הסגנון שלך. הסיפור שלך.</h2>
     <p class="section-sub">ארבעה שלבים קצרים. לוקח בערך שתי דקות.</p>
 
+    <div class="saved" id="savedBanner" hidden role="status">
+      <span id="savedText"></span>
+      <button class="btn" type="button" id="savedUse">מלאו לי את הפרטים</button>
+      <button class="btn ghost" type="button" id="savedForget">לא תודה, למחוק</button>
+    </div>
     <datalist id="teamList"></datalist>
     <form id="orderForm" novalidate>
       <div class="panel" id="formPanel">
@@ -279,6 +336,7 @@ details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
           <section class="step" data-step="2" hidden>
             <h3 class="step-title" tabindex="-1">העלו תמונות</h3>
             <p class="step-sub">תמונות ברורות ובאיכות טובה, בלי פילטרים. אפשר 1 עד 3.</p>
+            <p class="note-small">התמונות משמשות רק ליצירת הפוסטר שלך, ונמחקות מהמערכת אחרי שהפוסטר נמסר.</p>
             <div class="grid">
               <div class="field full" id="photoField">
                 <span class="lbl" id="photoLbl">תמונות מקוריות, בין 1 ל-3 *</span>
@@ -341,12 +399,24 @@ details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
                 <textarea name="notes" rows="3" maxlength="2000"></textarea></label>
             </div>
 
+            <fieldset class="plan-pick">
+              <legend>איך תרצו להזמין?</legend>
+              <label><input type="radio" name="plan" value="single" checked>
+                <span>משחק בודד, החל מ-39 ₪</span></label>
+              <label><input type="radio" name="plan" value="subscription">
+                <span>מנוי חודשי, 100 ₪ ל-4 משחקים. ההזמנה הזאת היא המשחק הראשון, ואחזור אליך לתיאום.</span></label>
+            </fieldset>
+
             <label class="trap" aria-hidden="true">Website<input type="text" tabindex="-1" autocomplete="off" name="website"></label>
 
             <label class="check"><input type="checkbox" name="rights">
               <span>יש לי רשות להשתמש בתמונות לצורך ההזמנה. *</span></label>
+            <label class="check"><input type="checkbox" name="ageOk">
+              <span>השחקן מעל גיל 18, או שאני ההורה או האפוטרופוס שלו ומאשר/ת את ההזמנה ואת השימוש בתמונות שלו. *</span></label>
             <label class="check"><input type="checkbox" name="terms">
-              <span>קראתי ואני מסכים/ה ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות והתנאים</a>, כולל שמירת החומרים ופרטי הקשר לצורך הטיפול בהזמנה. אם השחקן מתחת לגיל 18, אני ההורה או האפוטרופוס שלו, או שיש לי את הסכמתם. *</span></label>
+              <span>קראתי ואני מסכים/ה ל<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות והתנאים</a>, כולל שמירת החומרים ופרטי הקשר לצורך הטיפול בהזמנה. התמונות נמחקות אחרי מסירת הפוסטר. *</span></label>
+            <label class="check"><input type="checkbox" name="remember">
+              <span>זכרו את הפרטים שלי להזמנה הבאה. הם נשמרים במכשיר הזה בלבד.</span></label>
           </section>
 
           <div class="wiz-nav">
@@ -364,7 +434,11 @@ details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
       <h2>ההזמנה התקבלה</h2>
       <div class="ref" id="doneRef"></div>
       <p>בדקנו שהכול הגיע. נחזור אליך אישית בוואטסאפ למספר שהשארת, כדי לתאם זמינות, מחיר ותיקונים לפני שמתחילים.</p>
-      <a class="btn" id="waBtn" href="#" hidden target="_blank" rel="noopener">כתבו לי בוואטסאפ</a>
+      <div class="share">
+        <a class="btn" id="waBtn" href="#" hidden target="_blank" rel="noopener">כתבו לי בוואטסאפ</a>
+        <button class="btn ghost" type="button" id="shareBtn">שיתוף קישור אישי לשחקן</button>
+      </div>
+      <p class="note-small" id="shareNote" hidden></p>
     </div>
   </section>
 
@@ -372,12 +446,14 @@ details.q p{color:var(--muted);margin:0 0 20px;max-width:46em}
     <h2 id="faq-title">לפני ששורקים לפתיחה.</h2>
     <details class="q"><summary>מה מקבלים?</summary>
       <p>פוסטר אישי בגודל 1080×1920 לסטורי. תאריך ובית/חוץ אינם מופיעים בעיצוב. ערוץ שידור מופיע רק אם מסרתם שיש שידור.</p></details>
+    <details class="q"><summary>כמה זה עולה?</summary>
+      <p>פוסטר למשחק החל מ-39 ₪, ומנוי חודשי של 100 ₪ עבור 4 פוסטרי משחק. המחיר הסופי והתשלום מתואמים איתך אישית אחרי בדיקת ההזמנה. אין חיוב באתר.</p></details>
     <details class="q"><summary>מתי מקבלים את הפוסטר?</summary>
       <p>המועד בטופס הוא בקשה. זמינות, מחיר ומספר תיקונים יתואמו איתך אישית לאחר בדיקת החומרים, לפני תחילת העבודה. אין חיוב באתר.</p></details>
     <details class="q"><summary>אילו תמונות לצרף?</summary>
       <p>צילום חד ומקורי, עדיף פורטרט וצילום פעולה. אין לשנות פנים או להמציא תנוחה שלא צולמה. להרכב של פורטרט וצילום פעולה נדרשות שתי תמונות, ולקולאז׳ הגדול שלוש.</p></details>
     <details class="q"><summary>איך משתמשים בחומרים שלי?</summary>
-      <p>פרטי הקשר והתמונות מיועדים לטיפול בהזמנה בלבד, ואינם מוצגים ללקוחות אחרים. התמונות ופרטי המשחק (בלי מספר הטלפון) עוברים לכלי עיצוב ובינה מלאכותית לצורך יצירת הפוסטר. אפשר לבקש מחיקה בכל שלב. הסכמת ההזמנה אינה אישור להצגה בתיק עבודות. הפרטים המלאים ב<a href="privacy.html">מדיניות הפרטיות</a>.</p></details>
+      <p>פרטי הקשר והתמונות מיועדים לטיפול בהזמנה בלבד, ואינם מוצגים ללקוחות אחרים. התמונות נמחקות אחרי מסירת הפוסטר. התמונות ופרטי המשחק (בלי מספר הטלפון) עוברים לכלי עיצוב ובינה מלאכותית לצורך יצירת הפוסטר. אפשר לבקש מחיקה בכל שלב. הסכמת ההזמנה אינה אישור להצגה בתיק עבודות. הפרטים המלאים ב<a href="privacy.html">מדיניות הפרטיות</a>.</p></details>
   </section>
 </main>
 
@@ -537,28 +613,88 @@ function friendly(err) {
 
 async function notifyOwner(orderId, doc) {
   const n = SITE.emailNotify || {};
-  if (!n.serviceId || !n.templateId || !n.publicKey) return;
+  if (!n.enabled || !n.to) return;
   try {
-    await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(n.to), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        service_id: n.serviceId, template_id: n.templateId, user_id: n.publicKey,
-        template_params: {
-          player: doc.player, team: doc.team, opponent: doc.opponent,
-          style: doc.styleName, game_date: doc.date, game_time: doc.time,
-          ref: orderId.slice(0, 6).toUpperCase(),
-          admin_link: new URL('admin/', location.href).href,
-        },
+        _subject: 'הזמנה חדשה: ' + doc.player,
+        _captcha: 'false',
+        _template: 'table',
+        'מספר הזמנה': orderId.slice(0, 6).toUpperCase(),
+        'שחקן': doc.player,
+        'קבוצה': doc.team + ' נגד ' + doc.opponent,
+        'סגנון': doc.styleName,
+        'משחק': doc.date + ' ' + doc.time + ' (' + doc.competitionLabel + ')',
+        'סוג הזמנה': doc.plan === 'subscription' ? 'מנוי חודשי' : 'משחק בודד',
+        'ניהול הזמנות': new URL('admin/', location.href).href,
       }),
     });
   } catch (_) { /* ההזמנה כבר נשמרה. ההתראה היא בונוס */ }
 }
 
+/* ---------- קישור אישי, זכירת פרטים והזמנה חוזרת ---------- */
+const SAVE_KEY = 'md_saved';
+function setStyle(id) {
+  const r = form.querySelector(`input[name=styleId][value="${CSS.escape(id || '')}"]`);
+  if (r) r.checked = true;
+}
+function prefill(d) {
+  for (const k of ['player', 'number', 'team', 'contact']) {
+    if (d[k] && field(k)) field(k).value = String(d[k]).slice(0, 100);
+  }
+  if (d.styleId) setStyle(d.styleId);
+}
+function personalLink(doc) {
+  const u = new URL(location.href);
+  u.search = ''; u.hash = '';
+  u.searchParams.set('player', doc.player);
+  if (doc.number) u.searchParams.set('number', doc.number);
+  u.searchParams.set('team', doc.team);
+  u.searchParams.set('style', doc.styleId);
+  return u.href + '#order';
+}
+function initPrefill() {
+  const q = new URLSearchParams(location.search);
+  if (q.get('player') || q.get('team')) {
+    prefill({ player: q.get('player'), number: q.get('number'), team: q.get('team'), styleId: q.get('style') });
+    const t = $('#savedText'); t.textContent = 'זה קישור אישי: מילאנו עבורך את שם השחקן והקבוצה. נשאר לבחור תמונות ולהשלים את פרטי המשחק.';
+    $('#savedUse').hidden = true; $('#savedForget').hidden = true;
+    $('#savedBanner').hidden = false;
+    return;
+  }
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch (_) {}
+  if (saved && saved.player) {
+    $('#savedText').textContent = `שמרנו את הפרטים של ${saved.player}${saved.team ? ' (' + saved.team + ')' : ''}. להזמין שוב?`;
+    $('#savedBanner').hidden = false;
+    $('#savedUse').addEventListener('click', () => { prefill(saved); $('#savedBanner').hidden = true; });
+    $('#savedForget').addEventListener('click', () => { try { localStorage.removeItem(SAVE_KEY); } catch (_) {} $('#savedBanner').hidden = true; });
+  }
+}
+function rememberDetails(v) {
+  try {
+    if (v.remember === 'on') {
+      localStorage.setItem(SAVE_KEY, JSON.stringify({ player: v.player, number: v.number, team: v.team, contact: v.contact, styleId: v.styleId }));
+    } else localStorage.removeItem(SAVE_KEY);
+  } catch (_) {}
+}
+
+/* ---------- מחירים ומנוי ---------- */
+$('#subToggle').addEventListener('click', (e) => {
+  const p = $('#subPanel'); const open = p.hidden;
+  p.hidden = !open; e.currentTarget.setAttribute('aria-expanded', String(open));
+});
+document.querySelectorAll('[data-plan]').forEach((a) => a.addEventListener('click', () => {
+  const r = form.querySelector(`input[name=plan][value="${a.dataset.plan}"]`);
+  if (r) r.checked = true;
+}));
+
 function showDone(ref, doc) {
   $('#formPanel').hidden = true;
   $('#styleField').hidden = true;
-  $('.section-sub').hidden = true;
+  $('#order .section-sub').hidden = true; $('#savedBanner').hidden = true;
   $('#doneRef').textContent = ref;
   const wa = $('#waBtn');
   if (SITE.ownerWhatsapp) {
@@ -566,6 +702,18 @@ function showDone(ref, doc) {
     wa.href = `https://wa.me/${SITE.ownerWhatsapp}?text=${encodeURIComponent(text)}`;
     wa.hidden = false;
   }
+  if (doc) {
+    const link = personalLink(doc);
+    $('#shareBtn').onclick = async () => {
+      const note = $('#shareNote');
+      try {
+        if (navigator.share) { await navigator.share({ title: 'MATCHDAY STUDIO', text: `פוסטר Match Day אישי עבור ${doc.player}`, url: link }); return; }
+      } catch (_) { return; }
+      try { await navigator.clipboard.writeText(link); note.textContent = 'הקישור הועתק. אפשר לשלוח אותו לשחקן.'; }
+      catch (_) { note.textContent = link; }
+      note.hidden = false;
+    };
+  } else $('#shareBtn').hidden = true;
   const d = $('#done');
   d.hidden = false;
   d.focus();
@@ -605,6 +753,7 @@ function readValues() {
   const v = Object.fromEntries(fd.entries());
   v.rights = fd.get('rights') === 'on';
   v.terms = fd.get('terms') === 'on';
+  v.ageOk = fd.get('ageOk') === 'on';
   return v;
 }
 function nextStep() {
@@ -620,6 +769,7 @@ function nextStep() {
 $('#nextBtn').addEventListener('click', nextStep);
 $('#backBtn').addEventListener('click', () => { clearErrors(); goStep(cur - 1); });
 goStep(1, { scroll: false });
+initPrefill();
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -667,6 +817,7 @@ form.addEventListener('submit', async (e) => {
     await batch.commit();
 
     try { localStorage.setItem('md_last', String(Date.now())); } catch (_) {}
+    rememberDetails(v);
     notifyOwner(orderRef.id, doc);
     showMsg('', '');
     showDone(orderRef.id.slice(0, 6).toUpperCase(), doc);

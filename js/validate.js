@@ -86,6 +86,8 @@ export function validateOrder(v, photoCount, today = todayLocalISO()) {
 
   if (!v.rights) add("rights", "יש לאשר שיש לכם רשות להשתמש בתמונות.");
   if (!v.terms) add("terms", "יש לאשר את שמירת החומרים ופרטי הקשר.");
+  if (!v.ageOk) add("ageOk", "יש לאשר שהשחקן מעל גיל 18, או שאתם ההורה או האפוטרופוס שלו.");
+  if (s(v.plan) && !["single", "subscription"].includes(s(v.plan))) add("plan", "בחרו משחק בודד או מנוי חודשי.");
 
   return errors;
 }
@@ -116,6 +118,8 @@ export function buildOrderDoc(v, photoCount) {
     notes: s(v.notes),
     rights: true,
     terms: true,
+    ageOk: true,
+    plan: s(v.plan) === "subscription" ? "subscription" : "single",
     status: "new",
   };
 }
