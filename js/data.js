@@ -11,8 +11,8 @@ export const LIMITS = {
 
 export const STYLES = [
   {
-    id: "md01", code: "MD01", en: "STADIUM LIGHTS", he: "אצטדיון וכחול דרמטי",
-    brief: "Dramatic night-stadium atmosphere: deep blue palette, floodlight beams and light haze, high contrast, cinematic depth.",
+    id: "md01", code: "MD01", en: "STADIUM DAY", he: "שמיים, אצטדיון ואוהדים",
+    brief: "Bright daylight stadium: blue and white, clear sky with clouds, packed stands and fans waving club flags, one large portrait on the left, diagonal brush-stroke MATCHDAY title.",
   },
   {
     id: "md02", code: "MD02", en: "CLEAN PRO", he: "נקי, בהיר ומדויק",
