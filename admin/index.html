@@ -166,9 +166,11 @@ async function init() {
     provider.setCustomParameters({ prompt: 'select_account' });
     try { await au.signInWithPopup(auth, provider); }
     catch (e) {
+      console.error(e);
       if (e.code === 'auth/popup-blocked') { await au.signInWithRedirect(auth, provider); return; }
       if (e.code === 'auth/unauthorized-domain') $('#loginErr').textContent = 'הדומיין של האתר לא מורשה ב-Firebase. צריך להוסיף אותו ב-Authentication > Settings > Authorized domains.';
-      else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') $('#loginErr').textContent = 'ההתחברות נכשלה. נסו שוב.';
+      else if (e.code === 'auth/operation-not-allowed') $('#loginErr').textContent = 'כניסה עם Google לא מופעלת ב-Firebase (קוד: operation-not-allowed).';
+      else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') $('#loginErr').textContent = 'ההתחברות נכשלה. נסו שוב. (קוד: ' + (e.code || 'unknown') + ')';
     }
   });
   $('#signOut').addEventListener('click', () => au.signOut(auth));
